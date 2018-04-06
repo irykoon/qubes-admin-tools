@@ -1,0 +1,12 @@
+#!/bin/bash
+
+for vm in "$@"
+do
+  echo "[*] Shutting down $vm..."
+  qvm-check $vm
+  if [[ $? -eq 0 ]]; then
+    exclude="${exclude} --exclude=$vm"
+  fi
+done
+
+eval "qvm-run --all 'sudo poweroff' $exclude"

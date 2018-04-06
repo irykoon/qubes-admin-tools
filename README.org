@@ -1,12 +1,28 @@
 * Qubes Admin Tools
 A collection of scripts that is useful in Qubes OS.
 ** Usage Demo
-The directory names indicates the place where scripts should be run.
+The directory names indicate the place where scripts should be run.
 *** dom0
 **** myupdate
-myupdate auto-updates all the VMs specified in one command
+myupdate auto-updates all the VMs specified as command line arguments.
 line. Example usage:
 #+BEGIN_SRC shell
   bash myupdate fedora-26 debian-8 whonix-gw whonix-ws
 #+END_SRC
+**** mykillexcept
+mykillexcept will shutdown all the VMs except those VMs specified as
+command line arguments.
+
+One useful example is shutting down all the VMs before shutting down
+Qubes OS. This will accelarate the shutdown speed:
+#+BEGIN_SRC shell
+  bash mykillexcept
+#+END_SRC
+
+Another example is shutting down every running VMs except the critical
+ones.
+#+BEGIN_SRC shell
+  bash mykillexcept sys-net sys-firewall sys-usb
+#+END_SRC
+
 *** AppVM
