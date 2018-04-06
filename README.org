@@ -26,3 +26,15 @@ ones.
 #+END_SRC
 
 *** AppVM
+** Contribution
+Qubes Admin Tools are all free softwares licensed under GPLv3. If you
+find it helpful, please consider make it even more useful.
+
+*** Propose New idea
+Is there a tool that is nice to have? Just open an issue for your
+proposal.
+*** Contribute Code
+You can either pull your own tools or work on existing the open issues.
+*** Documents
+What Qubes Admin Tools do you usually? Write an example for the
+document.
