@@ -1,10 +1,13 @@
 #!/bin/bash
 
+dnf_update="sudo dnf update -y"
+apt_update="sudo apt-get update && sudo apt-get upgrade -y"
+
 for vm in "$@"
 do
   echo "[*] Updating $vm..."
   qvm-check $vm
   if [[ $? -eq 0 ]]; then
-    qvm-run --auto $vm "if [ -f /etc/fedora-release ]; then sudo dnf update -y; elif [ -f /etc/debian_version ]; then sudo apt-get update && sudo apt-get upgrade -y; fi; sudo shutdown -h now"
+    qvm-run --auto $vm "if [ -f /etc/fedora-release ]; then $dnf_update; elif [ -f /etc/debian_version ]; then $apt_update; fi; sudo shutdown -h now"
   fi
 done
