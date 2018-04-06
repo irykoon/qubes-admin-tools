@@ -1,0 +1,12 @@
+* Qubes Admin Tools
+A collection of scripts that is useful in Qubes OS.
+** Usage Demo
+The directory names indicates the place where scripts should be run.
+*** dom0
+**** myupdate
+myupdate auto-updates all the VMs specified in one command
+line. Example usage:
+#+BEGIN_SRC shell
+  bash myupdate fedora-26 debian-8 whonix-gw whonix-ws
+#+END_SRC
+*** AppVM
