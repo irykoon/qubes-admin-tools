@@ -29,7 +29,9 @@ ones.
 ** Contribution
 Qubes Admin Tools are all free softwares licensed under GPLv3. If you
 find it helpful, please consider make it even more useful.
-
+*** Support Qubes 4.0
+Currently only Qubes 3.x is supported and tested. It would be helpful
+if you could help to test and may be modify it for Qubes 4.0.
 *** Propose New idea
 Is there a tool that is nice to have? Just open an issue for your
 proposal.
