@@ -24,13 +24,13 @@ function shut-vm() {
     eval "qvm-run --all 'sudo poweroff' $exclude"
 }
 
-if [ grep -q "R3" /etc/fedora-release ]; then
+if grep -q "R3" /etc/fedora-release; then
     for vm in "$@"
     do
         select-vm
         shut-vm
     done
-elif [ grep -q "R4" /etc/fedora-release ]; then
+elif grep -q "R4" /etc/fedora-release; then
     echo "[x] Qubes 4 has not been supported."
 else
     echo "[x] Qubes version is unkown."

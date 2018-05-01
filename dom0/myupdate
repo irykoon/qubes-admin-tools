@@ -5,7 +5,7 @@ apt_update="sudo apt-get update && sudo apt-get upgrade -y"
 
 
 
-if [ grep -q "R3" /etc/fedora-release ]; then
+if grep -q "R3" /etc/fedora-release; then
     for vm in "$@"
     do
         echo "[*] Updating $vm..."
@@ -14,7 +14,7 @@ if [ grep -q "R3" /etc/fedora-release ]; then
             qvm-run --auto $vm "if [ -f /etc/fedora-release ]; then $dnf_update; elif [ -f /etc/debian_version ]; then $apt_update; fi; sudo shutdown -h now"
         fi
     done
-elif [ grep -q "R4" /etc/fedora-release ]; then
+elif grep -q "R4" /etc/fedora-release; then
     echo "[x] Qubes 4 has not been supported."
 else
     echo "[x] Qubes version is unkown."
