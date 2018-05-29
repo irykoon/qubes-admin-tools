@@ -5,18 +5,18 @@ selected_vms=()
 function select-vm() {
     for vm in "$@"; do
         # TODO: determine how to support regex
-        qvm-ls --raw-data name-raw 2>/dev/null | grep -E "$vm"
+        temp_vm_list=$(vm-ls --raw-data name-raw 2>/dev/null | grep -E "$vm")
         for temp_vm in $temp_vm_list; do
-            qvm-check $temp_vm
+            qvm-check "$temp_vm"
             if [[ $? -eq 0 ]]; then
-                selected_vms+="$temp_vm"
+                selected_vms+=("$temp_vm")
             fi
         done
     done
 }
 
 function shut-vm() {
-    for vm in $selected_vms
+    for vm in "${selected_vms[@]}"
     do
         echo "[*] Shutting down $vm..."
         exclude="${exclude} --exclude=$vm"
@@ -27,7 +27,7 @@ function shut-vm() {
 if grep -q "R3" /etc/fedora-release; then
     for vm in "$@"
     do
-        select-vm
+        select-vm "$@"
         shut-vm
     done
 elif grep -q "R4" /etc/fedora-release; then
