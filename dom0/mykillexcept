@@ -21,7 +21,7 @@ function shut-vm() {
         echo "[*] Shutting down $vm..."
         exclude="${exclude} --exclude=$vm"
     done
-    eval "qvm-shutdown --all $exclude"
+    eval "qvm-run \"sudo poweroff\" --all $exclude"
 }
 
 if grep -q "R3" /etc/fedora-release; then
