@@ -5,7 +5,7 @@ selected_vms=()
 function select-vm() {
     for vm in "$@"; do
         # TODO: determine how to support regex
-        temp_vm_list=$(vm-ls --raw-data name-raw 2>/dev/null | grep -E "$vm")
+        temp_vm_list=$(qvm-ls --raw-data name-raw 2>/dev/null | grep -E "$vm")
         for temp_vm in $temp_vm_list; do
             qvm-check "$temp_vm"
             if [[ $? -eq 0 ]]; then
