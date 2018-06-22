@@ -1,0 +1,91 @@
+#!/bin/bash
+
+selected_vms=()
+
+# myrefactor $old_template $new_template $vm1 $vm2 $vm3
+# myrefactor $old_template $new_template --all # do it for all VMs that are using $old_template
+
+## parse_cmd_options is based on code in whonix_repository by Patrick
+parse_cmd_options() {
+    ## Thanks to:
+    ## http://mywiki.wooledge.org/BashFAQ/035
+
+    # Initialize all the option variables.
+    # This ensures we are not contaminated by variables from the environment.
+
+    # check if "$1" is really a template vm
+    qvm-check --template "$1"
+    if [[ $? -ne 0 ]]; then
+        echo "$1 is not a template."
+        exit 2
+    fi
+    # check if "$1" is really a template vm
+    qvm-check --template "$1"
+    if [[ $? -ne 0 ]]; then
+        echo "$2 is not a template." # TODO: show correct usage
+        exit 2
+    fi
+
+    old_template="$1"
+    new_template="$2"
+
+    # parse other arguments
+    while :
+    do
+        case $3 in
+            -h | --help | -\?)
+                echo "help"     # TODO: write a help
+                exit 0
+                ;;
+            -a | --all)
+                temp_vm_list=$(qvm-ls --raw-data name-raw 2>/dev/null)
+                shift
+                ;;
+            --)
+                shift
+                break
+                ;;
+            -*)
+                echo "Unknown option: $3" >&2
+                exit 1
+                ;;
+            *)
+                temp_vm_list+="$3" # TODO: $3 should be able to increase to $4 and so on?
+                shift
+                ;;
+        esac
+    done
+}
+
+function select-vm() {
+    for vm in "temp_vm_list"; do
+        # check the existence
+        qvm-check "$vm"
+        if [[ $? -ne 0 ]]; then
+            continue
+        fi
+
+        # check if it's using $old_template
+        qvm-prefs -g "$vm" template | grep -E "$old_template"
+        if [[ $? -ne 0 ]]; then
+            echo "$vm is not using $old_template as template."
+            continue
+        fi
+
+        selected_vms+=("$temp_vm")
+    done
+}
+
+function refactor() {
+    for vm in "${selected_vms[@]}"
+    do
+        echo "[*] Changing the template of $vm to $new_template ..."
+        qvm-prefs "$vm" -s template "$new_template"
+    done
+}
+
+parse_cmd_options "$@"
+
+select-vm
+
+refactor
