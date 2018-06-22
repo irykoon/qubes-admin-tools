@@ -9,9 +9,9 @@ if grep -q "R3" /etc/fedora-release; then
     for vm in "$@"
     do
         echo "[*] Updating $vm..."
-        qvm-check $vm
+        qvm-check "$vm"
         if [[ $? -eq 0 ]]; then
-            qvm-run --auto $vm "if [ -f /etc/fedora-release ]; then $dnf_update; elif [ -f /etc/debian_version ]; then $apt_update; fi; sudo shutdown -h now"
+            qvm-run --auto "$vm" "if [ -f /etc/fedora-release ]; then $dnf_update; elif [ -f /etc/debian_version ]; then $apt_update; fi; sudo shutdown -h now"
         fi
     done
 elif grep -q "R4" /etc/fedora-release; then
