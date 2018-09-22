@@ -15,5 +15,5 @@ if ( grep -q "R3" /etc/fedora-release ) || ( grep -q "R4" /etc/fedora-release ) 
         fi
     done
 else
-    echo "[x] Qubes version is unkown."
+    echo "[x] Unsupported Qubes version: $(cat /etc/fedora-release)"
 fi
