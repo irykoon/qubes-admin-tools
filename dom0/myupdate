@@ -11,7 +11,7 @@ if ( grep -q "R3" /etc/fedora-release ) || ( grep -q "R4" /etc/fedora-release ) 
         echo "[*] Updating $vm. This operation may take a while..."
         qvm-check "$vm"
         if [[ $? -eq 0 ]]; then
-            qvm-run --auto "$vm" "if [ -f /etc/fedora-release ]; then $dnf_update; elif [ -f /etc/debian_version ]; then $apt_update; fi; sudo shutdown -h now"
+            qvm-run --auto --pass-io --color-output 31 --color-stderr 31 "$vm" "if [ -f /etc/fedora-release ]; then $dnf_update; elif [ -f /etc/debian_version ]; then $apt_update; fi; sudo shutdown -h now"
         fi
     done
 else
