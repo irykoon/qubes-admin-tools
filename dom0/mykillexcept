@@ -5,7 +5,7 @@ selected_vms=()
 function select-vm() {
     for vm in "$@"; do
         # TODO: determine how to support regex
-        temp_vm_list=$(qvm-ls --raw-data name-raw 2>/dev/null | grep -E "$vm")
+        temp_vm_list=$(qvm-ls --raw-list 2>/dev/null | grep -E "$vm")
         for temp_vm in $temp_vm_list; do
             qvm-check "$temp_vm"
             if [[ $? -eq 0 ]]; then
@@ -16,22 +16,20 @@ function select-vm() {
 }
 
 function shut-vm() {
+    echo "${selected_vms[@]}"
     for vm in "${selected_vms[@]}"
     do
         echo "[*] Shutting down $vm..."
-        exclude="${exclude} --exclude=$vm"
+        exclude="${exclude} --exclude $vm"
     done
-    eval "qvm-run \"sudo poweroff\" --all $exclude"
+    eval "qvm-run 'sudo poweroff' --all $exclude"
 }
 
-if grep -q "R3" /etc/fedora-release; then
-    for vm in "$@"
-    do
-        select-vm "$@"
-        shut-vm
-    done
-elif grep -q "R4" /etc/fedora-release; then
-    echo "[x] Qubes 4 has not been supported."
+if grep -q "R4" /etc/fedora-release; then
+    select-vm "$@"
+    shut-vm
+elif grep -q "R3" /etc/fedora-release; then
+    echo "[x] Qubes 3 is not supported."
 else
     echo "[x] Qubes version is unkown."
 fi
